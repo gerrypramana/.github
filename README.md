@@ -68,17 +68,24 @@ The philosophy is simple but rigorous: **an efficient framework does not merely 
 > * **Growth outlook.** Multiple analyses project **electricity use more than doubling by ~2030** (≈945 TWh in one IEA scenario) with AI a key driver of load growth (IEA, 2024 [2]). Even if the overall share remains a few percent, the absolute TWh rise is significant.  
 > * **Methodological caution.** Literature reviews show **wide spreads** in model outputs (from ~200 TWh to >1,000 TWh for 2022), explained by different boundary choices (what counts as “in” the data centre), extrapolation methods, and assumptions. This underlines the value of focusing on *verifiable efficiency at the software/runtime layer* (IEA 4E, 2025 [3]).  
 > * **Embodied vs operational.** The footprint isn’t only electricity for workloads. **Embodied emissions** from **hardware manufacturing and refresh cycles** (servers, accelerators, storage) are a material part of tech companies’ total footprints; reducing server counts and extending lifetimes via efficient software cuts both operational and embodied carbon (Meta, 2024 [4]).  
-> * **Why framework overhead matters.** At scale, **milliseconds per request** and **unnecessary allocations/I/O** aggregate into **MWh and hardware demand**. Deterministic boot paths, cache-friendly maps, and avoiding runtime scanning/reflection lower CPU cycles and memory pressure — yielding **more work per watt**, **higher app density per server**, **lower cooling load**, and **fewer machines procured over time**. These micro-efficiencies compound across fleets. Historical data (IEA, 2020 [5]) show efficiency as the lever that kept data-centre energy flat amid demand growth.  
+> * **Why framework overhead matters.** At scale, **milliseconds per request** and **unnecessary allocations/I/O** aggregate into **MWh and hardware demand**. Deterministic boot paths, cache-friendly maps, and avoiding runtime scanning/reflection lower CPU cycles and memory pressure — yielding **more work per watt**, **higher app density per server**, **lower cooling load**, and **fewer machines procured over time**. These micro-efficiencies compound across fleets. Historical data show efficiency as the lever that kept data-centre energy flat amid demand growth (Masanet et al., 2020 [5]).  
 >
 > **Bottom line:** Even as absolute data-centre electricity use rises, *software-level efficiency* remains a first-order lever. By minimizing overhead in the framework itself, CitOmni converts engineering choices directly into **fewer joules per request**, **fewer servers per workload**, and **lower embodied and operational emissions** — benefits that scale with traffic.
+>
+> ---
+>
+> **References**  
+> 1. [IEA 2022 – Data Centres and Data Transmission Networks][1]  
+> 2. [IEA 2024 – Energy and AI (Executive Summary)][2]  
+> 3. [IEA 4E 2025 – Data Centre Energy Use: Critical Review of Models and Results][3]  
+> 4. [Meta 2024 – Estimating embodied carbon in data center hardware][4]  
+> 5. [Masanet et al. 2020 – Recalibrating global data center energy-use estimates (Science)][5]  
 
-
-**References**  
-1. [IEA 2022 – Data Centres and Data Transmission Networks](https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks)  
-2. [IEA 2024 – Energy and AI (Executive Summary)](https://www.iea.org/reports/energy-and-ai/executive-summary)  
-3. [IEA 4E 2025 – Data Centre Energy Use: Critical Review of Models and Results](https://www.iea-4e.org/wp-content/uploads/2025/05/Data-Centre-Energy-Use-Critical-Review-of-Models-and-Results.pdf)  
-4. [Meta 2024 – Estimating embodied carbon in data center hardware](https://sustainability.atmeta.com/blog/2024/09/10/estimating-embodied-carbon-in-data-center-hardware-down-to-the-individual-screws)  
-5. [Masanet et al. 2020 – Recalibrating global data center energy-use estimates (Science)](https://datacenters.lbl.gov/sites/default/files/Masanet_et_al_Science_2020.full_.pdf)  
+[1]: https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks "IEA 2022 – Data Centres and Data Transmission Networks"  
+[2]: https://www.iea.org/reports/energy-and-ai/executive-summary "IEA 2024 – Energy and AI (Executive Summary)"  
+[3]: https://www.iea-4e.org/wp-content/uploads/2025/05/Data-Centre-Energy-Use-Critical-Review-of-Models-and-Results.pdf "IEA 4E 2025 – Data Centre Energy Use: Critical Review of Models and Results"  
+[4]: https://sustainability.atmeta.com/blog/2024/09/10/estimating-embodied-carbon-in-data-center-hardware-down-to-the-individual-screws "Meta 2024 – Estimating embodied carbon in data center hardware"  
+[5]: https://datacenters.lbl.gov/sites/default/files/Masanet_et_al_Science_2020.full_.pdf "Masanet et al. 2020 – Recalibrating global data center energy-use estimates (Science)"  
 
 ---
 
