@@ -73,11 +73,12 @@ The philosophy is simple but rigorous: **an efficient framework does not merely 
 > **Bottom line:** Even as absolute data-centre electricity use rises, *software-level efficiency* remains a first-order lever. By minimizing overhead in the framework itself, CitOmni converts engineering choices directly into **fewer joules per request**, **fewer servers per workload**, and **lower embodied and operational emissions** — benefits that scale with traffic.
 
 
-[1]: https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks "IEA 2022 – Data Centres and Data Transmission Networks"  
-[2]: https://www.iea.org/reports/energy-and-ai/executive-summary "IEA 2024 – Energy and AI (Executive Summary)"  
-[3]: https://www.iea-4e.org/wp-content/uploads/2025/05/Data-Centre-Energy-Use-Critical-Review-of-Models-and-Results.pdf "IEA 4E 2025 – Data Centre Energy Use: Critical Review of Models and Results"  
-[4]: https://sustainability.atmeta.com/blog/2024/09/10/estimating-embodied-carbon-in-data-center-hardware-down-to-the-individual-screws "Meta 2024 – Estimating embodied carbon in data center hardware"  
-[5]: https://datacenters.lbl.gov/sites/default/files/Masanet_et_al_Science_2020.full_.pdf "Masanet et al. 2020 – Recalibrating global data center energy-use estimates (Science)"  
+**References**  
+1. [IEA 2022 – Data Centres and Data Transmission Networks](https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks)  
+2. [IEA 2024 – Energy and AI (Executive Summary)](https://www.iea.org/reports/energy-and-ai/executive-summary)  
+3. [IEA 4E 2025 – Data Centre Energy Use: Critical Review of Models and Results](https://www.iea-4e.org/wp-content/uploads/2025/05/Data-Centre-Energy-Use-Critical-Review-of-Models-and-Results.pdf)  
+4. [Meta 2024 – Estimating embodied carbon in data center hardware](https://sustainability.atmeta.com/blog/2024/09/10/estimating-embodied-carbon-in-data-center-hardware-down-to-the-individual-screws)  
+5. [Masanet et al. 2020 – Recalibrating global data center energy-use estimates (Science)](https://datacenters.lbl.gov/sites/default/files/Masanet_et_al_Science_2020.full_.pdf)  
 
 ---
 
