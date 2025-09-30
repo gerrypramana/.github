@@ -113,6 +113,12 @@ See individual repositories for details.
 
 ---
 
+## Trademarks
+
+"CitOmni" and the CitOmni logo are trademarks of Lars Grove Mortensen; factual references are allowed, but do not modify the marks, create confusingly similar logos, or imply endorsement.
+
+---
+
 ## Author
 
 Developed and maintained by **[Lars Grove Mortensen](https://github.com/LarsGMortensen)** © 2012-2025
