@@ -1,0 +1,5 @@
+# Ignore all "_arkiv" folders everywhere
+**/_interne_**/
+
+# Globals
+*.bck
