@@ -13,8 +13,8 @@ It is built around small Composer packages - HTTP, CLI, Kernel, Infrastructure, 
 * 🧩 **Composable design** - slim packages you can combine freely.
 * 🛡️ **Transparent, no magic** - no reflection, no hidden scanning, just clean PSR-4.
 * 🛠️ **Developer-friendly** - deep read-only config, instant service maps, cache-ready.
+* 🔒 **Privacy by default** - no telemetry, no phone-home; only what you explicitly enable runs.
 * ♻️ **Green by design** - lower memory use and CPU cycles -> less server load, more requests per watt, better scalability, smaller carbon footprint.
-
 
 ---
 
@@ -25,22 +25,126 @@ CitOmni's "Green by design" claim is empirically validated at the framework leve
 The core runtime achieves near-floor CPU and memory costs per request on commodity shared infrastructure, sustaining hundreds of RPS per worker with extremely low footprint.
 
 See the full test report here:
-https://github.com/citomni/.github/blob/main/docs/CitOmni_Framework_-Capacity_and_Green_by_Design_Test_Report-2025-10-02.md
+[CitOmni Capacity & Green-by-Design Test Report (2025-10-02)](https://github.com/citomni/.github/blob/main/docs/CitOmni_Framework_-Capacity_and_Green_by_Design_Test_Report-2025-10-02.md)
 
 ---
 
 ## Get Started
 
-* [**citomni/http-skeleton**](https://github.com/citomni/http-skeleton) - ready-to-use starter skeleton for webapps, APIs, or SaaS.
-* [**citomni/http**](https://github.com/citomni/http) - lean HTTP runtime.
-* [**citomni/kernel**](https://github.com/citomni/kernel) - the tiny, deterministic core.
-* [**citomni/cli**](https://github.com/citomni/cli) - fast CLI runtime.
-* [**citomni/infrastructure**](https://github.com/citomni/infrastructure) - shared, cross-mode services.
-* [**citomni/auth**](https://github.com/citomni/auth) - authentication & account management.
-* [**citomni/testing**](https://github.com/citomni/testing) - framework-integrated environment for the systematic evaluation of CitOmni applications.
+
+### Quick start (HTTP app)
+
+```bash
+# 1) Scaffold a new app from the HTTP skeleton
+composer create-project citomni/http-skeleton my-app
+cd my-app
+
+# 2) Run the built-in PHP server
+php -S 127.0.0.1:8080 -t public
+
+# 3) Visit http://127.0.0.1:8080
+```
+
+### Quick start (CLI app)
+
+```bash
+# 1) Create a new project (using the kernel + cli packages)
+composer init -n && composer require citomni/kernel citomni/cli
+
+# 2) Make a minimal bin entrypoint
+cat > bin/app <<'PHP'
+#!/usr/bin/env php
+<?php
+require __DIR__ . '/../vendor/autoload.php';
+\CitOmni\Cli\Kernel::run(__DIR__ . '/../config', $argv);
+PHP
+chmod +x bin/app
+
+# 3) Create a minimal config/ folder
+mkdir -p config && printf "<?php\nreturn [];" > config/citomni_cli_cfg.php
+printf "<?php\nreturn [];" > config/services.php
+printf "<?php\nreturn [];" > config/providers.php
+
+# 4) Run
+./bin/app list
+```
+
+---
+
+## Documentation
+
+- **Runtime / Execution Mode Layer** - architectural rationale for HTTP vs CLI, baseline ownership, merge order.  
+  -> [citomni/kernel · docs/CitOmni_Runtime_(aka_Execution)_Mode_Layer.md](https://github.com/citomni/kernel/blob/main/docs/CitOmni_Runtime_(aka_Execution)_Mode_Layer.md)
+
+- **Provider Packages: Design, Semantics, and Best Practices** - how providers contribute `MAP_*` / `CFG_*`, routes, precedence rules, testing.  
+  -> [citomni/kernel · docs/CitOmni_Provider_Packages_(Design_Semantics_and_Best_Practices).md](https://github.com/citomni/kernel/blob/main/docs/CitOmni_Provider_Packages_(Design_Semantics_and_Best_Practices).md)
+
+---
+
+### Ecosystem map
+
+| Package                                                      | Purpose (one-liner)                              |
+|--------------------------------------------------------------|--------------------------------------------------|
+| [`citomni/kernel`](https://github.com/citomni/kernel)        | Deterministic core: config + service map         |
+| [`citomni/http`](https://github.com/citomni/http)            | Lean HTTP runtime (router, request/response)     |
+| [`citomni/cli`](https://github.com/citomni/cli)              | Fast CLI runtime (commands, scheduling)          |
+| [`citomni/infrastructure`](https://github.com/citomni/infrastructure) | Cross-mode services (shared utilities)   |
+| [`citomni/auth`](https://github.com/citomni/auth)            | Authentication & account management              |
+| [`citomni/testing`](https://github.com/citomni/testing)      | Integration testing in a real CitOmni boot       |
+| [`citomni/http-skeleton`](https://github.com/citomni/http-skeleton) | Starter template for HTTP apps          |
 
 
 More packages are available under the [CitOmni organization](https://github.com/citomni).
+
+---
+
+## Architecture at a glance
+
+```
+
+App (your code)
+├─ /config
+│   ├─ providers.php           # whitelist of provider boot classes
+│   ├─ services.php            # app overrides for service map
+│   ├─ citomni_http_cfg*.php   # app & env overlays (HTTP)
+│   └─ citomni_cli_cfg*.php    # app & env overlays (CLI)
+└─ /src
+
+Vendor packages
+├─ citomni/kernel              # builds config + services (deterministic)
+├─ citomni/http                # HTTP baseline config + services
+├─ citomni/cli                 # CLI baseline config + services
+└─ providers (auth, etc.)      # contribute MAP_*/CFG_* constants
+
+Runtime
+├─ Mode::HTTP -> Http\Boot\Config::CFG + Services::MAP
+└─ Mode::CLI  -> Cli\Boot\Config::CFG  + Services::MAP
+
+```
+
+---
+
+## Versioning & Support
+
+- **PHP:** CitOmni targets **PHP ≥ 8.2** (no support for older versions).
+- **SemVer:** Public APIs (class names, method signatures, config/merge behavior, service IDs, top-level config keys) follow **Semantic Versioning**.
+- **Stability:** Core packages aim for conservative changes; breaking changes are announced in release notes with migration guidance.
+
+---
+
+## Security
+
+If you discover a security issue, please **do not** open a public issue.  
+Email: **security@citomni.org** with details (PGP: `FINGERPRINT-HERE`).  
+We will acknowledge promptly and coordinate a fix and responsible disclosure.
+
+
+---
+
+## Telemetry & Privacy
+
+CitOmni performs **no telemetry** and ships **no phone-home** code.  
+What runs is exactly what you install and opt-in via `/config/providers.php`.
 
 ---
 
@@ -122,6 +226,8 @@ All CitOmni projects follow the shared conventions documented here:
 
 All CitOmni core packages are released under the **GNU General Public License v3.0 or later**.
 See individual repositories for details.
+
+> Note: Core packages use **GPL-3.0-or-later**. Ensure compatibility for closed-source deployments or ship custom adapters in separate processes where appropriate.
 
 ---
 
