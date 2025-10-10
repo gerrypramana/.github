@@ -1,0 +1,14 @@
+# Enables the "Sponsor" button across CitOmni repositories.
+# Repos can override or add to this file locally.
+
+# GitHub Sponsors (set your handle or org slug)
+github: [LarsGMortensen]   # or: [citomni] if you enable org-level sponsors
+
+# Open Collective (optional)
+open_collective: ""        # e.g., "citomni"
+
+# Ko-fi (optional)
+ko_fi: ""                  # e.g., "larsgmortensen"
+
+# Buy Me a Coffee (optional)
+custom: []

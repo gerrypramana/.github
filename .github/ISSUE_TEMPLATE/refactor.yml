@@ -1,0 +1,19 @@
+name: Refactor / Technical debt
+description: Code quality or architectural improvements (no behavior change)
+title: "[refactor] <short summary>"
+labels: [refactor, needs-triage]
+assignees: ["LarsGMortensen"]
+
+body:
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      placeholder: "Reduce complexity, improve determinism, trim allocations…"
+    validations: { required: true }
+
+  - type: textarea
+    id: plan
+    attributes:
+      label: Proposed plan
+      placeholder: "Split class X, extract Y, replace Z with constants…"

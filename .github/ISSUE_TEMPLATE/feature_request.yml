@@ -1,0 +1,41 @@
+name: Feature request
+description: Propose an enhancement or new capability
+title: "[feat] <short summary>"
+labels: [enhancement, needs-triage]
+assignees: ["LarsGMortensen"]
+
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What’s the user need or gap? Keep it concrete.
+      placeholder: "As a <role>, I want <capability> so that <benefit>."
+    validations: { required: true }
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: High-level approach; APIs/config you imagine.
+      placeholder: "Add X to Y; expose Z via cfg; CLI flag --foo, etc."
+    validations: { required: true }
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope & constraints
+      options:
+        - label: Backward compatible
+        - label: Performance-sensitive
+        - label: Requires docs update
+        - label: Requires tests
+        - label: Affects HTTP
+        - label: Affects CLI
+        - label: Affects Infrastructure
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Related issues/links/specs.

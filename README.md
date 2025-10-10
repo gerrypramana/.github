@@ -69,6 +69,8 @@ printf "<?php\nreturn [];" > config/providers.php
 ./bin/app list
 ```
 
+> Issues: use the prefilled templates under **New Issue** (bug, feature, docs, perf, refactor). Blank issues are disabled.
+
 ---
 
 ## Documentation
@@ -135,9 +137,8 @@ Runtime
 ## Security
 
 If you discover a security issue, please **do not** open a public issue.  
-Email: **security@citomni.org** with details (PGP: `FINGERPRINT-HERE`).  
-We will acknowledge promptly and coordinate a fix and responsible disclosure.
-
+See [SECURITY.md](SECURITY.md).  
+Email: **security@citomni.com** (PGP optional). We acknowledge within ~72h and coordinate a fix.
 
 ---
 
@@ -207,6 +208,16 @@ The philosophy is simple but rigorous: **an efficient framework does not merely 
 
 ---
 
+## Community & Governance
+
+- **Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md)
+- **Code of Conduct:** see [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- **Security:** report privately via [SECURITY.md](SECURITY.md)
+- **Licensing overview:** see [LICENSING.md](LICENSING.md)
+- **Trademarks:** see [TRADEMARKS.md](TRADEMARKS.md)
+
+---
+
 ## Contributing
 
 * Code style: PHP 8.2+, PSR-4, **tabs**, K&R braces.
@@ -224,10 +235,14 @@ All CitOmni projects follow the shared conventions documented here:
 
 ## License
 
-All CitOmni core packages are released under the **GNU General Public License v3.0 or later**.
-See individual repositories for details.
+CitOmni uses different licenses depending on repository purpose. See each repo’s `LICENSE`.
 
-> Note: Core packages use **GPL-3.0-or-later**. Ensure compatibility for closed-source deployments or ship custom adapters in separate processes where appropriate.
+- **Runtime packages** (kernel, http, cli, infrastructure): **GPL-3.0-or-later with the CitOmni Plugin Exception 1.0**  
+- **Provider skeletons**: **GPL-3.0-or-later with the CitOmni Template Exception 1.0**  
+- **App/HTTP/CLI skeletons**: **MIT**  
+- **Private repositories**: **Proprietary** (no redistribution)
+
+Details: [LICENSING.md](LICENSING.md)
 
 ---
 
