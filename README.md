@@ -2,7 +2,7 @@
 
 **Low overhead. High performance. Ready for anything.**
 
-CitOmni is a modular PHP framework (PHP 8.2+) designed for ultra-fast execution, zero overhead, and no surprises.
+CitOmni is a modular PHP framework (PHP 8.2+) designed for ultra-fast execution, ultra-low overhead, and no surprises.
 It is built around small Composer packages - HTTP, CLI, Kernel, Infrastructure, Auth, Testing, and more - so you only install what you need.
 
 ---
@@ -11,7 +11,7 @@ It is built around small Composer packages - HTTP, CLI, Kernel, Infrastructure, 
 
 * 🚀 **Deterministic boot** - predictable "last wins" config merges (vendor -> providers -> app).
 * 🧩 **Composable design** - slim packages you can combine freely.
-* 🛡️ **Transparent, no magic** - no reflection, no hidden scanning, just clean PSR-4.
+* 🛡️ **Transparent, no magic** - no reflection, no runtime/hidden scanning, just clean PSR-4.
 * 🛠️ **Developer-friendly** - deep read-only config, instant service maps, cache-ready.
 * 🔒 **Privacy by default** - no telemetry, no phone-home; only what you explicitly enable runs.
 * ♻️ **Green by design** - lower memory use and CPU cycles -> less server load, more requests per watt, better scalability, smaller carbon footprint.
@@ -25,7 +25,7 @@ CitOmni's "Green by design" claim is empirically validated at the framework leve
 The core runtime achieves near-floor CPU and memory costs per request on commodity shared infrastructure, sustaining hundreds of RPS per worker with extremely low footprint.
 
 See the full test report here:
-[CitOmni Capacity & Green-by-Design Test Report (2025-10-02)](https://github.com/citomni/.github/blob/main/docs/CitOmni_Framework_-Capacity_and_Green_by_Design_Test_Report-2025-10-02.md)
+[CitOmni Docs -> /reports/2025-10-02-capacity-and-green-by-design.md](https://github.com/citomni/docs/blob/main/reports/2025-10-02-capacity-and-green-by-design.md)
 
 ---
 
@@ -39,11 +39,52 @@ See the full test report here:
 composer create-project citomni/http-skeleton my-app
 cd my-app
 
-# 2) Run the built-in PHP server
+# 2) Ensure entrypoint defines the standard CitOmni constants (public/index.php)
+<?php
+declare(strict_types=1);
+
+define('CITOMNI_START_NS', hrtime(true));
+define('CITOMNI_ENVIRONMENT', 'dev');            // dev | stage | prod
+define('CITOMNI_PUBLIC_PATH', __DIR__);          // no trailing slash
+define('CITOMNI_APP_PATH', \dirname(__DIR__));   // app root, no trailing slash
+
+// In stage/prod: either define CITOMNI_PUBLIC_ROOT_URL OR set absolute http.base_url in config.
+// In dev: Kernel will auto-detect if not defined.
+if (\defined('CITOMNI_ENVIRONMENT') && \CITOMNI_ENVIRONMENT !== 'dev') {
+	define('CITOMNI_PUBLIC_ROOT_URL', 'https://www.example.com');
+}
+
+require __DIR__ . '/../vendor/autoload.php';
+
+// Pass the public path; Kernel resolves app root + /config internally.
+\CitOmni\Http\Kernel::run(__DIR__, [
+	// options reserved (none required)
+]);
+
+// Alternative: call with a config directory (Kernel resolves app root/public)
+// \CitOmni\Http\Kernel::run(CITOMNI_APP_PATH . '/config');
+
+# 3) Run the built-in PHP server
 php -S 127.0.0.1:8080 -t public
 
-# 3) Visit http://127.0.0.1:8080
+# 4) Visit http://127.0.0.1:8080
 ```
+
+Tip: append ?_perf to any URL in dev to print execution time, memory, and included files.
+
+**PUBLIC_ROOT_URL rule**
+
+- **dev**: may be auto-detected (you can omit CITOMNI_PUBLIC_ROOT_URL).
+- **stage/prod**: you **must** either:
+  1) define `CITOMNI_PUBLIC_ROOT_URL`, **or**
+  2) set an absolute `http.base_url` in `/config/citomni_http_cfg.{ENV}.php`.
+
+**Locale setup**
+
+Kernel reads `locale.timezone` and `locale.charset` from your config
+(`/config/citomni_http_cfg*.php`) and applies them at boot
+(`date_default_timezone_set`, `ini_set('default_charset', ...)`).
+
 
 ### Quick start (CLI app)
 
@@ -71,15 +112,16 @@ printf "<?php\nreturn [];" > config/providers.php
 
 > Issues: use the prefilled templates under **New Issue** (bug, feature, docs, perf, refactor). Blank issues are disabled.
 
+
 ---
 
 ## Documentation
 
-- **Runtime / Execution Mode Layer** - architectural rationale for HTTP vs CLI, baseline ownership, merge order.  
-  -> [citomni/kernel · docs/CitOmni_Runtime_(aka_Execution)_Mode_Layer.md](https://github.com/citomni/kernel/blob/main/docs/CitOmni_Runtime_(aka_Execution)_Mode_Layer.md)
+- **Runtime / Execution Mode Layer** - architectural rationale for HTTP vs CLI, baseline ownership, deterministic config/service merging, and why CitOmni deliberately supports only two execution modes.  
+  _Doc:_ [`concepts/runtime-modes.md`](https://github.com/citomni/docs/blob/main/concepts/runtime-modes.md)
 
-- **Provider Packages: Design, Semantics, and Best Practices** - how providers contribute `MAP_*` / `CFG_*`, routes, precedence rules, testing.  
-  -> [citomni/kernel · docs/CitOmni_Provider_Packages_(Design_Semantics_and_Best_Practices).md](https://github.com/citomni/kernel/blob/main/docs/CitOmni_Provider_Packages_(Design_Semantics_and_Best_Practices).md)
+- **Provider Packages: Design, Semantics, and Best Practices** - explains how provider packages contribute `MAP_*` and `CFG_*` definitions, routes, precedence rules, and versioning; includes guidance on testing, consistency, and conflict avoidance.  
+  _Doc:_ [`concepts/services-and-providers.md`](https://github.com/citomni/docs/blob/main/concepts/services-and-providers.md)
 
 ---
 
@@ -108,6 +150,7 @@ App (your code)
 ├─ /config
 │   ├─ providers.php           # whitelist of provider boot classes
 │   ├─ services.php            # app overrides for service map
+│   ├─ routes.php              # app routes (included from citomni_http_cfg.php)
 │   ├─ citomni_http_cfg*.php   # app & env overlays (HTTP)
 │   └─ citomni_cli_cfg*.php    # app & env overlays (CLI)
 └─ /src
@@ -123,6 +166,9 @@ Runtime
 └─ Mode::CLI  -> Cli\Boot\Config::CFG  + Services::MAP
 
 ```
+
+Routes live in `/config/routes.php` and are included from `citomni_http_cfg.php`. 
+Providers may also contribute route maps via their `Boot\Services::CFG_HTTP`.
 
 ---
 
@@ -159,52 +205,63 @@ CitOmni is built around three principles:
 
 ---
 
-### Sustainable by Design
+## 💚 Green by Design
 
-Software efficiency is not only a matter of speed - it is a matter of sustainability. Every instruction executed and every byte allocated ultimately consumes electricity. When frameworks impose unnecessary overhead, the cost is multiplied at scale: thousands of servers, millions of requests, gigawatts of energy. This translates directly into higher operational costs and a measurable environmental impact.
+CitOmni is engineered for **software-level efficiency**: it reduces CPU cycles, memory allocations, and redundant I/O at the framework layer. The architecture favors **deterministic execution paths**, **static service/config maps**, and **OPcache-friendly compiled arrays** so the CPU does only the work you explicitly request. This design aligns with best-available findings that software efficiency remains a first-order lever for controlling data-centre energy growth and infrastructure needs [1,2,3].
 
-CitOmni is deliberately engineered to minimize waste:
+### Architectural pillars (technical)
 
-1. **Deterministic execution paths** - predictable config merges and no runtime scanning mean the CPU is doing only what is strictly required.
-2. **Memory-lean architecture** - services and configuration are resolved via static maps, not reflection or discovery mechanisms, keeping allocations minimal.
-3. **Cache-friendly design** - compiled arrays and preloaded maps make full use of OPcache and modern CPU caches, reducing redundant parsing and lookups.
-4. **Side-effect-free boot** - the framework loads only what you ask for; no hidden I/O, no implicit background tasks.
+1. **Deterministic boot (no runtime scanning/reflection):** predictable control flow and cacheable hot paths minimize instruction count and branch entropy.
+2. **Memory-lean resolution:** static maps (IDs -> classes/options) instead of dynamic discovery reduce allocations, hash lookups, and GC pressure.
+3. **OPcache-centric design:** compiled arrays and preload-friendly structures cut repeated parsing and improve instruction locality.
+4. **Side-effect-free boot:** no implicit I/O, no telemetry, no background tasks; each request is explicit and reproducible.
 
-From a sustainability perspective, this has profound implications:
+### Why this matters (operational & embodied)
 
-* **More work per watt**: by reducing framework overhead, each server can handle more requests per unit of energy consumed.
-* **Higher server density**: applications can be consolidated on fewer machines without compromising performance, directly lowering hardware demand and embodied emissions.
-* **Lower cooling requirements**: efficient CPU and memory usage reduces thermal load, decreasing the energy footprint of data centers.
-* **Scalable environmental benefit**: what saves a few milliseconds and kilobytes in a local test translates into massive resource savings when multiplied across global deployments.
+Even small per-request savings **compound at scale**. Lower framework overhead reduces:
 
-The philosophy is simple but rigorous: **an efficient framework does not merely serve developers - it serves the planet.** In a world where digital infrastructure accounts for a growing share of global energy use, CitOmni's focus on low overhead is both a performance strategy and an ecological commitment.
+* **Operational energy** (CPU time -> joules), improving *work per watt* and server density [1,2].
+* **Cooling load**, as less heat is produced per unit work [1].
+* **Hardware churn (embodied carbon)**, because higher density and longer useful lifetimes defer new procurements [4].
+
+These effects are widely noted in sector overviews and meta-analyses: efficiency gains at the software/runtime layer have historically offset demand growth and remain essential as workloads (including AI) expand [1-3].
+
+### Measured outcomes (qualified)
+
+On modest shared hosting with PHP 8.2+ and OPcache enabled, CitOmni's framework-layer overhead exhibits consistently **low CPU time** and **low memory footprint** (including template render), with request-level measurements clustering near the platform's timing floor under warm-cache conditions. Exact figures depend on environment (CPU, TLS, payload, network). Full methodology, scripts, and reproducible datasets are provided here:
+
+-> **Report:** *Capacity & Green-by-Design* (2025-10-02)
+[https://github.com/citomni/docs/blob/main/reports/2025-10-02-capacity-and-green-by-design.md](https://github.com/citomni/docs/blob/main/reports/2025-10-02-capacity-and-green-by-design.md)
+
+### Scope & reproducibility
+
+* Metrics: wall-time (p50/p95), CPU time (where available), RSS/peak memory, included files.
+* Conditions: warm caches, OPcache on, no telemetry, fixed payload sizes; environment parameters documented in the report.
+* Repro: scripts and configs included; results are meant to be re-run on your target hardware.
+
+> **Bottom line:** Fast software is green software. By minimizing overhead at the framework layer and favoring deterministic, cache-friendly execution, CitOmni translates design choices directly into **measurable operational efficiency** and **lower embodied impact over time**.
 
 ---
 
-> ### Research note: why software efficiency matters (and scales)
->
-> * **Baseline today.** Best-available estimates put data centres at roughly **1-1.3% of global electricity demand (2022)** (IEA, 2022 [1]), excluding crypto. Ranges vary due to methodology and scope.  
-> * **Growth outlook.** Multiple analyses project **electricity use more than doubling by ~2030** (≈945 TWh in one IEA scenario) with AI a key driver of load growth (IEA, 2024 [2]). Even if the overall share remains a few percent, the absolute TWh rise is significant.  
-> * **Methodological caution.** Literature reviews show **wide spreads** in model outputs (from ~200 TWh to >1,000 TWh for 2022), explained by different boundary choices (what counts as "in" the data centre), extrapolation methods, and assumptions. This underlines the value of focusing on *verifiable efficiency at the software/runtime layer* (IEA 4E, 2025 [3]).  
-> * **Embodied vs operational.** The footprint isn't only electricity for workloads. **Embodied emissions** from **hardware manufacturing and refresh cycles** (servers, accelerators, storage) are a material part of tech companies' total footprints; reducing server counts and extending lifetimes via efficient software cuts both operational and embodied carbon (Meta, 2024 [4]).  
-> * **Why framework overhead matters.** At scale, **milliseconds per request** and **unnecessary allocations/I/O** aggregate into **MWh and hardware demand**. Deterministic boot paths, cache-friendly maps, and avoiding runtime scanning/reflection lower CPU cycles and memory pressure - yielding **more work per watt**, **higher app density per server**, **lower cooling load**, and **fewer machines procured over time**. These micro-efficiencies compound across fleets. Historical data show efficiency as the lever that kept data-centre energy flat amid demand growth (Masanet et al., 2020 [5]).  
->
-> **Bottom line:** Even as absolute data-centre electricity use rises, *software-level efficiency* remains a first-order lever. By minimizing overhead in the framework itself, CitOmni converts engineering choices directly into **fewer joules per request**, **fewer servers per workload**, and **lower embodied and operational emissions** - benefits that scale with traffic.
->
-> ---
->
-> **References**  
-> 1. [IEA 2022 - Data Centres and Data Transmission Networks][1]  
-> 2. [IEA 2024 - Energy and AI (Executive Summary)][2]  
-> 3. [IEA 4E 2025 - Data Centre Energy Use: Critical Review of Models and Results][3]  
-> 4. [Meta 2024 - Estimating embodied carbon in data center hardware][4]  
-> 5. [Masanet et al. 2020 - Recalibrating global data center energy-use estimates (Science)][5]  
+### References
 
-[1]: https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks "IEA 2022 - Data Centres and Data Transmission Networks"  
-[2]: https://www.iea.org/reports/energy-and-ai/executive-summary "IEA 2024 - Energy and AI (Executive Summary)"  
-[3]: https://www.iea-4e.org/wp-content/uploads/2025/05/Data-Centre-Energy-Use-Critical-Review-of-Models-and-Results.pdf "IEA 4E 2025 - Data Centre Energy Use: Critical Review of Models and Results"  
-[4]: https://sustainability.atmeta.com/blog/2024/09/10/estimating-embodied-carbon-in-data-center-hardware-down-to-the-individual-screws "Meta 2024 - Estimating embodied carbon in data center hardware"  
-[5]: https://datacenters.lbl.gov/sites/default/files/Masanet_et_al_Science_2020.full_.pdf "Masanet et al. 2020 - Recalibrating global data center energy-use estimates (Science)"  
+[1] **IEA (2022)** - *Data Centres and Data Transmission Networks*: sector energy use, efficiency trends, and drivers.
+[https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks](https://www.iea.org/energy-system/buildings/data-centres-and-data-transmission-networks)
+
+[2] **Masanet et al. (2020, Science)** - *Recalibrating global data center energy-use estimates*: shows how efficiency gains (including software) historically constrained energy growth despite demand.
+[https://doi.org/10.1126/science.aba3758](https://doi.org/10.1126/science.aba3758)
+
+[3] **IEA 4E (2025)** - *Data Centre Energy Use: Critical Review of Models and Results*: methodological review highlighting model spread and the ongoing role of efficiency at multiple layers.
+[https://www.iea-4e.org/wp-content/uploads/2025/05/Data-Centre-Energy-Use-Critical-Review-of-Models-and-Results.pdf](https://www.iea-4e.org/wp-content/uploads/2025/05/Data-Centre-Energy-Use-Critical-Review-of-Models-and-Results.pdf)
+
+[4] **Meta (2024)** - *Estimating embodied carbon in data-centre hardware*: why extending hardware life and reducing churn matters (embodied emissions).
+[https://sustainability.atmeta.com/blog/2024/09/10/estimating-embodied-carbon-in-data-center-hardware-down-to-the-individual-screws](https://sustainability.atmeta.com/blog/2024/09/10/estimating-embodied-carbon-in-data-center-hardware-down-to-the-individual-screws)
+
+[5] **IEA (2024)** - *Energy and AI (Executive Summary)*: workload growth outlook and efficiency context for digital infrastructure.
+[https://www.iea.org/reports/energy-and-ai/executive-summary](https://www.iea.org/reports/energy-and-ai/executive-summary)
+
+[6] **LBL/DOE (resource hub)** - *Data Center Efficiency Research*: background on measurement, workloads, and efficiency levers (including software).
+[https://datacenters.lbl.gov/](https://datacenters.lbl.gov/)
 
 ---
 
@@ -220,7 +277,10 @@ The philosophy is simple but rigorous: **an efficient framework does not merely 
 
 ## Contributing
 
-* Code style: PHP 8.2+, PSR-4, **tabs**, K&R braces.
+* Code style: PHP 8.2+, PSR-1/PSR-4, **tabs**, K&R braces.
+* Naming: PascalCase classes, camelCase methods/variables, UPPER_SNAKE_CASE constants.
+* Documentation: PHPDoc and inline comments must be in **English**.
+* SPDX headers in code files (e.g., `SPDX-License-Identifier: MIT`).
 * Keep vendor files side-effect free (OPcache-friendly).
 * Don't swallow exceptions in core; let the global error handler log.
 
@@ -229,32 +289,36 @@ The philosophy is simple but rigorous: **an efficient framework does not merely 
 ## Coding & Documentation Conventions
 
 All CitOmni projects follow the shared conventions documented here:
-[CitOmni Coding & Documentation Conventions](https://github.com/citomni/kernel/blob/main/docs/CONVENTIONS.md)
+[CitOmni Coding & Documentation Conventions](https://github.com/citomni/docs/blob/main/contribute/CONVENTIONS.md)
 
 ---
 
 ## License
 
-CitOmni uses different licenses depending on repository purpose. See each repo’s `LICENSE`.
+CitOmni uses different licenses depending on repository purpose. See each repo's `LICENSE`.
 
-- **Runtime packages** (kernel, http, cli, infrastructure): **GPL-3.0-or-later with the CitOmni Plugin Exception 1.0**  
-- **Provider skeletons**: **GPL-3.0-or-later with the CitOmni Template Exception 1.0**  
-- **App/HTTP/CLI skeletons**: **MIT**  
-- **Private repositories**: **Proprietary** (no redistribution)
+- **Official framework packages** (kernel, http, cli, infrastructure, testing, auth): **MIT**  
+- **Skeletons** (HTTP/CLI/app/provider skeletons): **MIT**  
+- **Documentation** (this repo and `.github` policies/templates): **CC BY-SA 4.0**  
+- **Private or client-specific extensions**: **Proprietary** (no redistribution)
 
-Details: [LICENSING.md](LICENSING.md)
+Details and rationale: see [LICENSING.md](LICENSING.md).
 
 ---
 
 ## Trademarks
 
-"CitOmni" and the CitOmni logo are trademarks of Lars Grove Mortensen; factual references are allowed, but do not modify the marks, create confusingly similar logos, or imply endorsement.
+"CitOmni" and the CitOmni logo are trademarks of **Lars Grove Mortensen**.  
+You may make factual references to "CitOmni", but do not modify the marks, create confusingly similar logos,  
+or imply sponsorship, endorsement, or affiliation without prior written permission.  
+Do not register or use "citomni" (or confusingly similar terms) in company names, domains, social handles, or top-level vendor/package names.  
+For details, see the project's [NOTICE](NOTICE).
 
 ---
 
 ## Author
 
-Developed and maintained by **[Lars Grove Mortensen](https://github.com/LarsGMortensen)** © 2012-2025
+Developed and maintained by **[Lars Grove Mortensen](https://github.com/LarsGMortensen)** © 2012-present
 Contributions and pull requests are welcome!
 
 ---

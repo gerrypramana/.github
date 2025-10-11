@@ -8,7 +8,7 @@
 <!-- Minimal, deterministic steps or commands to validate the change. -->
 - [ ] `composer validate`
 - [ ] `composer dump-autoload -o`
-- [ ] Run tests / static analysis (if present):
+- [ ] Run tests / static analysis (if present):  
       `vendor/bin/phpunit` • `vendor/bin/phpstan analyse`
 
 ## Backward compatibility
@@ -26,10 +26,11 @@
 
 ## License confirmation
 I confirm my contribution is under this repository's license:
-- Runtime packages: **GPL-3.0-or-later + CitOmni Plugin Exception 1.0**
-- Provider skeleton: **GPL-3.0-or-later + CitOmni Template Exception 1.0**
-- App/HTTP/CLI skeletons: **MIT**
-- Private repos: **proprietary**
+- Official framework packages (`citomni/kernel`, `citomni/http`, `citomni/cli`, `citomni/infrastructure`): **MIT**
+- Skeletons (`citomni/http-skeleton`, `citomni/cli-skeleton`, `citomni/app-skeleton`, `citomni/provider-skeleton`): **MIT**
+- Documentation & org meta (`citomni/docs`, `citomni/.github`): **CC BY-SA 4.0**
+- Proprietary org packages (e.g., `citomni/auth`, `citomni/testing`): **Proprietary**  
+  *(Distributed via certified resellers; CitOmni has no direct customers.)*
 
 ## DCO
 - [ ] All commits are signed (`git commit -s`) and include a valid `Signed-off-by` line.

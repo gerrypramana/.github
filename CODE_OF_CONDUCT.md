@@ -1,55 +1,45 @@
 # CitOmni Code of Conduct
 
-We want CitOmni to be welcoming, professional, and productive for everyone.
-
-## Our Pledge
-We pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, gender identity and expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and orientation.
+CitOmni is a community of professionals who value respectful collaboration, technical rigor, and clear communication. We expect all participants to help create a welcoming, inclusive, and harassment-free environment across all CitOmni spaces (GitHub issues/PRs, discussions, events, and private maintainer channels related to the project).
 
 ## Our Standards
+
 Examples of behavior that contributes to a positive environment:
-- Being respectful, considerate, and constructive
-- Giving and gracefully accepting feedback
-- Focusing on what is best for users and the community
-- Showing empathy to other community members
+- Using inclusive and professional language
+- Respecting differing viewpoints and experiences
+- Accepting constructive feedback gracefully
+- Focusing on what is best for the project and its users
+- Showing empathy toward other community members
 
 Examples of unacceptable behavior:
 - Harassment, insults, or derogatory comments
-- Trolling, sustained disruption, or inflammatory remarks
-- Publishing others' private information without permission
-- Sexualized language or imagery; unwelcome sexual attention
-- Any behavior that violates laws or reasonable professional norms
+- Trolling, sustained disruption, or personal attacks
+- Public or private harassment, doxxing, or sharing others' private information
+- Publishing others' work as your own
+- Any conduct that violates applicable law
 
 ## Scope
-This Code applies within project spaces (issues, PRs, discussions, release notes, docs, chats) and when representing the project in public spaces.
+
+This Code applies within all CitOmni project spaces and when an individual is officially representing the project or its community. **Organization-wide enforcement:** serious or repeated violations in one repository may, at maintainers' discretion, lead to restrictions across other repositories in the CitOmni organization.
 
 ## Enforcement
-Project maintainers may take appropriate action for behavior they deem inappropriate, including warnings, temporary/permanent bans, or locking threads to maintain a constructive environment.
+
+Project maintainers are responsible for clarifying and enforcing our standards. They may take appropriate and fair corrective action in response to any behavior they deem inappropriate, threatening, offensive, or harmful.
 
 ## Reporting
-If you observe or experience unacceptable behavior:
-- Email **conduct@citomni.com** (private), or
-- Use the private contact listed in a repository's README (for private/proprietary repos)
 
-Please include links, screenshots, and a clear description. We aim to acknowledge within **72 hours**.
+If you experience or witness unacceptable behavior:
+- Prefer email: **support@citomni.com**
+- Security issues: **security@citomni.com** (see `SECURITY.md` for PGP)
+
+Reports will be reviewed promptly and confidentially. Retaliation against reporters is prohibited.
+
+## Consequences
+
+Actions may include: a warning, content moderation, temporary or permanent bans from project spaces, or escalation to platform support and/or authorities where required.
 
 ## Attribution
-This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.1.
 
-## Enforcement Guidelines
-To ensure consistent and fair handling, maintainers may apply the following, depending on severity and history:
+This policy is informed by widely used open-source codes of conduct. We adapted it to match CitOmni's organization-wide enforcement and security reporting practices.
 
-1) **Correction** - A private, specific explanation of the issue and how to avoid it going forward.
-2) **Warning** - A formal warning; further violations may lead to temporary or permanent restrictions.
-3) **Temporary Ban** - Temporary restriction from participation in project spaces and/or repositories.
-4) **Permanent Ban** - Permanent restriction from participation in project spaces and/or repositories.
-
-Maintainers decide appropriate actions at their discretion to preserve a safe, productive environment.
-
-## Appeals & Privacy
-If you believe an action was taken in error, you may request a review by replying to **conduct@citomni.com**. We will handle reports confidentially, sharing details only with those who need them to investigate and act.
-
-## Anti-Retaliation
-We do not tolerate retaliation against anyone who reports a concern in good faith or participates in an investigation.
-
-## Emergencies
-If anyone is in immediate danger, contact local authorities first. You can still notify us at **conduct@citomni.com** once the situation is safe.
+_Last updated: 2025-10-12_

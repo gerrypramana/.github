@@ -1,130 +1,104 @@
-# CitOmni Trademarks Policy
+# CitOmni Trademarks and Brand Usage
 
-"**CitOmni**", the CitOmni **name**, and the CitOmni **logo** (the "Marks") are trademarks of **Lars Grove Mortensen**.
-This policy explains permissible use of the Marks. It **does not** substitute or limit applicable trademark law.
+"CitOmni" and the CitOmni logo are trademarks of **Lars Grove Mortensen**.  
+Trademark rights are **separate from copyright** and are not granted by open-source
+licenses (e.g., MIT or Creative Commons).
 
-> **License vs. trademark:** CitOmni code is open source (see each repo's `LICENSE`), but **trademark rights are separate**. Open-source licenses grant copyright permissions, **not** trademark permissions.
-
----
-
-## Allowed use (no prior approval)
-
-You **may**:
-
-1. **Descriptive references**
-   Use "CitOmni" **to refer to the project** in accurate, factual statements:
-
-   * "Compatible with CitOmni"
-   * "Built for CitOmni apps"
-   * "Plugin for the CitOmni HTTP runtime"
-
-2. **Attribution**
-   Credit CitOmni in docs, READMEs, slides, or articles.
-
-3. **Package titles (independent vendors)**
-   Use names that clearly indicate compatibility **without implying affiliation**. Prefer:
-
-   * `your-vendor/citomni-foo` (if the repo/README clearly says "Unofficial. Not affiliated."), or
-   * `your-vendor/foo-for-citomni` (recommended)
-     Avoid names that look like **official** CitOmni packages (see "Prohibited" below).
-
-4. **Screenshots/UI snippets**
-   You can show CitOmni screenshots/logos **as part of a truthful reference** (e.g., in blog posts, reviews). Don't alter the logo or make it the focal brand of your product.
+This document **supplements** the per-repository NOTICE files and governs all use
+of CitOmni trademarks, logos, and related identifiers.
 
 ---
 
-## Prohibited use (needs explicit permission or is not allowed)
+## 1) Nominative Fair Use (Descriptive References)
 
-You **must not**:
+You may refer to **"CitOmni"** to describe **factual compatibility, comparison, or education** -
+including in commercial contexts - provided that:
 
-1. **Imply endorsement or affiliation**
-   Don't present your organization, product, or service as **official**, "partnered with," "approved by," or "endorsed by" CitOmni **without written permission**.
+- The use is purely **descriptive** and **does not suggest sponsorship, endorsement, or affiliation**.
+- You **do not modify** the CitOmni logo or combine it with your own marks.
+- You **do not present** your product, service, or publication as **"official", "certified", "endorsed", or "approved"**
+  by the CitOmni project unless such status has been **formally granted in writing**.
 
-2. **Use confusing names or domains**
-
-   * Don't name your product/package `citomni/<anything>` unless it is an **official CitOmni org repo**.
-   * Don't register domains that could confuse users about official status (e.g., `citomni-official.com`).
-   * Don't use "CitOmni" **as the first/sole brand** for an independent product.
-
-3. **Modify the Marks**
-   Don't change the logo, colors, aspect ratio, or combine the logo with other marks.
-
-4. **Merchandise**
-   Don't place the CitOmni marks on merchandise (stickers, shirts, mugs, etc.) for sale **without permission**.
-
-5. **Use the Marks as part of your company/organization name**
-   Do not form an entity named "CitOmni <Something>" unless you are the rights holder or have written permission.
+**Acceptable examples:**
+- "Compatible with the CitOmni Framework."
+- "Unofficial guide for CitOmni developers."
+- "Built for applications using the CitOmni HTTP Kernel."
 
 ---
 
-## Naming guidelines (packages & repos)
+## 2) Prohibited Without Prior Permission
 
-* **Official packages** live under the `citomni/` GitHub org and Packagist vendor.
-* **Community packages** should avoid implying official status. Prefer:
+You **may not**, without prior written permission:
 
-  * **Recommended:** `your-vendor/foo-for-citomni`, `your-vendor/foo-citomni-adapter`.
-  * **If using "citomni" in the artifact name** (e.g., `your-vendor/citomni-foo`), include a prominent note in README:
+- Register or use **"citomni" (or any confusingly similar term)** in:
+  - **company names**
+  - **domain names**
+  - **social handles**
+  - **top-level vendor/package names** (e.g., Packagist/GitHub vendor)
+- Use the CitOmni logo or word mark in a way that implies official status.
+- Market or distribute products, services, or merchandise **under** the CitOmni name.
+- Modify, stylize, recolor, or merge the CitOmni logo with other marks.
+- Apply for your **own trademark** containing "CitOmni".
 
-    > "This is an **unofficial** package, not affiliated with or endorsed by CitOmni."
-* Avoid names that look like core packages: `citomni/kernel`, `citomni/http`, `citomni/cli`, `citomni/infrastructure`, `citomni/*-skeleton`, etc.
-
----
-
-## Logo usage
-
-* Use only the **current, unmodified** logo files as provided by CitOmni (no recoloring, stretching, or adding effects).
-* Maintain clear space and legibility; don't place the logo on visually noisy backgrounds.
-* Do not use the logo as the **primary brand** of your product or service.
-
-(If you need vector assets or specific usage guidance, contact us.)
+If unsure whether your intended use requires permission, contact: **trademarks@citomni.com**.
 
 ---
 
-## Examples
+## 3) Naming Guidelines for Compatible Software
 
-**OK**
+Use names that indicate compatibility **without implying affiliation**.
 
-* "`my-cache-adapter-for-citomni` - a cache adapter for CitOmni apps."
-* Blog post titled "How we deploy CitOmni on shared hosting" with screenshots and proper credit.
-* "Compatible with CitOmni (unofficial)."
+**Recommended (no permission required):**
+- `your-vendor/foo-for-citomni`
+- `your-vendor/foo-citomni-adapter`
 
-**Not OK**
+**Not allowed without permission:**
+- `your-vendor/citomni-foo` (names starting with "citomni" can imply official status)
+- Any **top-level** vendor or package name that begins with or is "citomni"
 
-* "CitOmni Pro Router" (implies official status)
-* `citomni-cache` repo under your personal/org account (without an "unofficial" disclaimer)
-* Modifying the logo colors and using it as your app icon
-
----
-
-## Requesting permission
-
-For uses that fall outside "Allowed use," email **[trademarks@citomni.com](mailto:trademarks@citomni.com)** with:
-
-* Who you are and your organization
-* Intended use (where, how, samples/mockups)
-* Timeline
+> Note: Official packages live under the `citomni/` organization/vendor. Community packages
+> should not resemble core names such as `citomni/kernel`, `citomni/http`, `citomni/cli`,
+> `citomni/infrastructure`, or any `citomni/*-skeleton`.
 
 ---
 
-## Reporting misuse
+## 4) Logo Usage
 
-If you see confusing or infringing use of the CitOmni Marks, please report it to **[trademarks@citomni.com](mailto:trademarks@citomni.com)**.
+- Use only the **current, unmodified** CitOmni logo files as provided by the project.
+- The logo may be shown **only** to refer to CitOmni itself (e.g., in documentation or slides).
+- Do **not** use the logo as the primary brand of your product or site, and do not alter colors,
+  proportions, or combine it with other brand elements.
 
----
-
-## Changes
-
-This policy may evolve. The latest version lives in the `citomni/.github` repository. Continued use of the Marks indicates acceptance of the current policy.
-
----
-
-## Copyright
-
-"CitOmni" and the CitOmni logo are trademarks of **Lars Grove Mortensen**.
-© 2012-2025 Lars Grove Mortensen. All rights reserved.
+Required attribution when showing the logo:
+> "CitOmni and the CitOmni logo are trademarks of Lars Grove Mortensen."
 
 ---
 
-If you want a shorter "unofficial" disclaimer snippet for community READMEs, you can add:
+## 5) Relationship to Open-Source Licenses
 
-> **Unofficial:** This project is not affiliated with or endorsed by CitOmni. "CitOmni" and the CitOmni logo are trademarks of Lars Grove Mortensen.
+Trademark rights are distinct from copyright licenses.
+
+- **MIT** (for framework code) and **CC BY-SA 4.0** (for documentation) grant rights to use, copy,
+  modify, and distribute the **content**, but **not** the trademarks.
+- Using the CitOmni name or logo for your own brand, product, service, or package/vendor naming
+  still requires **prior written permission** where stated above.
+
+---
+
+## 6) Permission Requests & Misuse
+
+- Permission requests: **trademarks@citomni.com**  
+  (Include who you are, intended use, where/how it will appear, and mockups if available.)
+- Suspected misuse or impersonation: **security@citomni.com**
+
+---
+
+## 7) Changes & Precedence
+
+This policy may evolve. The latest version lives in the `citomni/.github` repository.
+In case of any discrepancy, this policy and the applicable NOTICE in the target repository
+govern trademark usage; open-source license texts continue to govern copyright.
+
+---
+
+_Last updated: 2025-10-12_
