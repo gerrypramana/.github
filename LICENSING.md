@@ -18,11 +18,11 @@ Always check each repository's own `LICENSE` file for the authoritative text.
 ## SPDX and Composer
 
 - **SPDX header (code files)**
-  ```php
+```php
   /*
    * SPDX-License-Identifier: MIT
    */
-````
+```
 
 * **SPDX for documentation**
 
@@ -39,6 +39,6 @@ Prefer permissive licenses (MIT/BSD/Apache-2.0) or GPL-compatible alternatives w
 
 ## Trademarks
 
-See `TRADEMARKS.md` for naming and branding guidelines (including restrictions on using "citomni" in vendor/package names and domains).
+See [TRADEMARKS.md](TRADEMARKS.md) for naming and branding guidelines (including restrictions on using "citomni" in vendor/package names and domains).
 
 *Last updated: 2025-10-12*
